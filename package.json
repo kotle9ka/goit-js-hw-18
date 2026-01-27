@@ -1,12 +1,12 @@
 {
   "name": "goit-js-hw-18",
   "version": "1.0.0",
-  "description": "",
+  "description": "Проект на Parcel с деплоем на GitHub Pages",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --dist-dir build",
-    "deploy": "gh-pages -d build",
-    "server": "json-server --watch db.json --port 3000"
+    "build": "parcel build src/index.html --dist-dir build --public-url ./",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/kotle9ka/goit-js-hw-18/issues"
   },
-  "homepage": "https://github.com/kotle9ka/goit-js-hw-18#readme",
+  "homepage": "https://kotle9ka.github.io/goit-js-hw-18/",
   "dependencies": {
     "json-server": "^1.0.0-beta.5",
     "parcel": "^2.16.3"
