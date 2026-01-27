@@ -1,0 +1,29 @@
+{
+  "name": "goit-js-hw-18",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --dist-dir build",
+    "deploy": "gh-pages -d build",
+    "server": "json-server --watch db.json --port 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotle9ka/goit-js-hw-18.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kotle9ka/goit-js-hw-18/issues"
+  },
+  "homepage": "https://github.com/kotle9ka/goit-js-hw-18#readme",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.5",
+    "parcel": "^2.16.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
