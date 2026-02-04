@@ -1,4 +1,4 @@
-const API_URL = "https://698366329c3efeb892a5a05e.mockapi.io/v1/students";
+const API_URL = "https://698369449c3efeb892a5aa17.mockapi.io/v1/students";
 
 async function getStudents() {
   try {
