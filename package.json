@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Проект на Parcel с деплоем на GitHub Pages",
   "scripts": {
-    "server": "npx json-server db.json --port 3000",
+    "server": "npx json-server db.json",
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html --dist-dir build --public-url ./",
     "predeploy": "npm run build",
