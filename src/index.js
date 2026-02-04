@@ -1,18 +1,14 @@
-const API_URL = "https://69835de39c3efeb892a58383.mockapi.io/students"; 
+const API_URL = "https://6983638d9c3efeb892a598c1.mockapi.io/v1/students";
 
 async function getStudents() {
   try {
     const res = await fetch(API_URL);
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     const students = await res.json();
 
-    if (!Array.isArray(students)) {
-      throw new Error("Полученные данные не массив");
-    }
+    if (!Array.isArray(students)) throw new Error("Полученные данные не массив");
 
     renderStudents(students);
 
@@ -21,7 +17,6 @@ async function getStudents() {
     alert("Не удалось загрузить студентов. Проверьте API URL.");
   }
 }
-
 
 function renderStudents(students) {
   if (!Array.isArray(students)) return;
@@ -55,9 +50,7 @@ async function addStudent(e) {
     name: document.getElementById("name").value,
     age: Number(document.getElementById("age").value),
     course: document.getElementById("course").value,
-    skills: document.getElementById("skills").value
-      .split(",")
-      .map(s => s.trim()),
+    skills: document.getElementById("skills").value.split(",").map(s => s.trim()),
     email: document.getElementById("email").value,
     isEnrolled: document.getElementById("isEnrolled").checked
   };
@@ -68,7 +61,6 @@ async function addStudent(e) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(student)
     });
-
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     getStudents();
@@ -90,7 +82,6 @@ async function updateStudent(id) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, age: Number(age) })
     });
-
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     getStudents();
@@ -105,6 +96,7 @@ async function deleteStudent(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
     getStudents();
   } catch (err) {
     console.error("Помилка видалення студента:", err);
