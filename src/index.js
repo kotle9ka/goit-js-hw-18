@@ -31,8 +31,8 @@ function renderStudents(students) {
       <td>${student.name}</td>
       <td>${student.age}</td>
       <td>${student.course}</td>
-      <td>${student.skills.join(", ")}</td>
-      <td>${student.email}</td>
+      <td>${Array.isArray(student.skills) ? student.skills.join(", ") : ""}</td>
+      <td>${student.email || ""}</td>
       <td>${student.isEnrolled ? "✅" : "❌"}</td>
       <td>
         <button onclick="updateStudent(${student.id})">✏️</button>
