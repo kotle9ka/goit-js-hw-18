@@ -1,9 +1,9 @@
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://localhost:3000/students";
 
 // Завантаження студентів (GET)
 async function getStudents() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL); 
     const students = await res.json();
     renderStudents(students);
   } catch (err) {
