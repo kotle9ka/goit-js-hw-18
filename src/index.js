@@ -2,27 +2,27 @@ const API_URL = "https://698369449c3efeb892a5aa17.mockapi.io/v1/students";
 
 async function getStudents() {
   try {
-    const res = await fetch(API_URL);
-
+    console.log("Fetching:", API_URL);
+    const res = await fetch(API_URL, { mode: 'cors' }); // включаем CORS
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
+    
     const students = await res.json();
-
-    if (!Array.isArray(students)) throw new Error("Полученные данные не массив");
+    console.log("Response data:", students);
 
     renderStudents(students);
-
   } catch (err) {
     console.error("Помилка отримання студентів:", err);
-    alert("Не удалось загрузить студентов. Проверьте API URL.");
   }
 }
 
 function renderStudents(students) {
-  if (!Array.isArray(students)) return;
-
   const tbody = document.querySelector("#students-table tbody");
   tbody.innerHTML = "";
+
+  if (!Array.isArray(students)) {
+    console.error("Полученные данные не массив:", students);
+    return;
+  }
 
   students.forEach(student => {
     const tr = document.createElement("tr");
@@ -31,7 +31,7 @@ function renderStudents(students) {
       <td>${student.name}</td>
       <td>${student.age}</td>
       <td>${student.course}</td>
-      <td>${student.skills?.join(", ") || ""}</td>
+      <td>${student.skills.join(", ")}</td>
       <td>${student.email}</td>
       <td>${student.isEnrolled ? "✅" : "❌"}</td>
       <td>
@@ -58,6 +58,7 @@ async function addStudent(e) {
   try {
     const res = await fetch(API_URL, {
       method: "POST",
+      mode: 'cors',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(student)
     });
@@ -79,6 +80,7 @@ async function updateStudent(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`, {
       method: "PATCH",
+      mode: 'cors',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, age: Number(age) })
     });
@@ -94,7 +96,10 @@ async function deleteStudent(id) {
   if (!confirm("Ви впевнені?")) return;
 
   try {
-    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+      mode: 'cors'
+    });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     getStudents();
