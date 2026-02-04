@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/students";
+const API_URL = "http://localhost:3000/";
 
 // Завантаження студентів (GET)
 async function getStudents() {
