@@ -25,21 +25,17 @@ function renderStudents(students) {
   }
 
   students.forEach(student => {
-    // Делаем безопасное получение skills и других полей
     const skills = Array.isArray(student.skills) ? student.skills.join(", ") : "";
-    const email = student.email || "";
-    const course = student.course || "";
-    const isEnrolled = student.isEnrolled ? "✅" : "❌";
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${student.id}</td>
+      <td>${student.id || ""}</td>
       <td>${student.name || ""}</td>
       <td>${student.age || ""}</td>
-      <td>${course}</td>
+      <td>${student.course || ""}</td>
       <td>${skills}</td>
-      <td>${email}</td>
-      <td>${isEnrolled}</td>
+      <td>${student.email || ""}</td>
+      <td>${student.isEnrolled ? "✅" : "❌"}</td>
       <td>
         <button onclick="updateStudent(${student.id})">✏️</button>
         <button onclick="deleteStudent(${student.id})">🗑️</button>
