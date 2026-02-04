@@ -25,7 +25,8 @@ function renderStudents(students) {
   }
 
   students.forEach(student => {
-    const skills = Array.isArray(student.skills) ? student.skills.join(", ") : "";
+    const skillsArray = Array.isArray(student.skills) ? student.skills : [];
+    const skills = skillsArray.join(", ");
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
