@@ -1,18 +1,31 @@
-const API_URL = "https://69835de39c3efeb892a58383.mockapi.io/students";
+const API_URL = "https://69835de39c3efeb892a58383.mockapi.io/students"; 
 
-// Завантаження студентів (GET)
 async function getStudents() {
   try {
     const res = await fetch(API_URL);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const students = await res.json();
+
+    if (!Array.isArray(students)) {
+      throw new Error("Полученные данные не массив");
+    }
+
     renderStudents(students);
+
   } catch (err) {
     console.error("Помилка отримання студентів:", err);
+    alert("Не удалось загрузить студентов. Проверьте API URL.");
   }
 }
 
-// Відображення студентів
+
 function renderStudents(students) {
+  if (!Array.isArray(students)) return;
+
   const tbody = document.querySelector("#students-table tbody");
   tbody.innerHTML = "";
 
@@ -23,7 +36,7 @@ function renderStudents(students) {
       <td>${student.name}</td>
       <td>${student.age}</td>
       <td>${student.course}</td>
-      <td>${student.skills.join(", ")}</td>
+      <td>${student.skills?.join(", ") || ""}</td>
       <td>${student.email}</td>
       <td>${student.isEnrolled ? "✅" : "❌"}</td>
       <td>
@@ -35,7 +48,6 @@ function renderStudents(students) {
   });
 }
 
-// Додавання студента (POST)
 async function addStudent(e) {
   e.preventDefault();
 
@@ -43,17 +55,22 @@ async function addStudent(e) {
     name: document.getElementById("name").value,
     age: Number(document.getElementById("age").value),
     course: document.getElementById("course").value,
-    skills: document.getElementById("skills").value.split(",").map(s => s.trim()),
+    skills: document.getElementById("skills").value
+      .split(",")
+      .map(s => s.trim()),
     email: document.getElementById("email").value,
     isEnrolled: document.getElementById("isEnrolled").checked
   };
 
   try {
-    await fetch(API_URL, {
+    const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(student)
     });
+
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
     getStudents();
     e.target.reset();
   } catch (err) {
@@ -61,7 +78,6 @@ async function addStudent(e) {
   }
 }
 
-// Оновлення студента (PATCH)
 async function updateStudent(id) {
   const name = prompt("Ім'я:");
   const age = prompt("Вік:");
@@ -69,29 +85,33 @@ async function updateStudent(id) {
   if (!name || !age) return;
 
   try {
-    await fetch(`${API_URL}/${id}`, {
+    const res = await fetch(`${API_URL}/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, age: Number(age) })
     });
+
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
     getStudents();
   } catch (err) {
     console.error("Помилка оновлення студента:", err);
   }
 }
 
-// Видалення студента (DELETE)
 async function deleteStudent(id) {
   if (!confirm("Ви впевнені?")) return;
 
   try {
-    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     getStudents();
   } catch (err) {
     console.error("Помилка видалення студента:", err);
   }
 }
 
-// Події
 document.getElementById("get-students-btn").addEventListener("click", getStudents);
 document.getElementById("add-student-form").addEventListener("submit", addStudent);
+
+getStudents();
