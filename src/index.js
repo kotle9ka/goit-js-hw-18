@@ -105,5 +105,3 @@ async function deleteStudent(id) {
 
 document.getElementById("get-students-btn").addEventListener("click", getStudents);
 document.getElementById("add-student-form").addEventListener("submit", addStudent);
-
-getStudents();
