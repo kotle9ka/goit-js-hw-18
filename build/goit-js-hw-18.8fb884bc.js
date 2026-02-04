@@ -1,0 +1,14 @@
+const API_URL="https://698369449c3efeb892a5aa17.mockapi.io/v1/students";async function getStudents(){try{let t=await fetch(API_URL,{mode:"cors"});if(!t.ok)throw Error(`HTTP error! status: ${t.status}`);let e=await t.json();console.log("Fetched students:",e);let r=Array.isArray(e)?e:e.students||[];renderStudents(r)}catch(t){console.error("Помилка отримання студентів:",t)}}function renderStudents(t){let e=document.querySelector("#students-table tbody");if(e.innerHTML="",!Array.isArray(t)||0===t.length){e.innerHTML='<tr><td colspan="8">Студенти не знайдені</td></tr>';return}t.forEach(t=>{let{id:r="",name:n="",age:d="",course:o="",email:s="",isEnrolled:a=!1,skills:u=[]}=t,c=Array.isArray(u)?u.join(", "):"",l=document.createElement("tr");l.innerHTML=`
+      <td>${r}</td>
+      <td>${n}</td>
+      <td>${d}</td>
+      <td>${o}</td>
+      <td>${c}</td>
+      <td>${s}</td>
+      <td>${a?"✅":"❌"}</td>
+      <td>
+        <button onclick="updateStudent(${r})">\u{270F}\u{FE0F}</button>
+        <button onclick="deleteStudent(${r})">\u{1F5D1}\u{FE0F}</button>
+      </td>
+    `,e.appendChild(l)})}async function addStudent(t){t.preventDefault();let e={name:document.getElementById("name").value,age:Number(document.getElementById("age").value),course:document.getElementById("course").value,skills:document.getElementById("skills").value.split(",").map(t=>t.trim()),email:document.getElementById("email").value,isEnrolled:document.getElementById("isEnrolled").checked};try{let r=await fetch(API_URL,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(e)});if(!r.ok)throw Error(`HTTP error! status: ${r.status}`);getStudents(),t.target.reset()}catch(t){console.error("Помилка додавання студента:",t)}}async function updateStudent(t){let e=prompt("Ім'я:"),r=prompt("Вік:");if(e&&r)try{let n=await fetch(`${API_URL}/${t}`,{method:"PATCH",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:e,age:Number(r)})});if(!n.ok)throw Error(`HTTP error! status: ${n.status}`);getStudents()}catch(t){console.error("Помилка оновлення студента:",t)}}async function deleteStudent(t){if(confirm("Ви впевнені?"))try{let e=await fetch(`${API_URL}/${t}`,{method:"DELETE",mode:"cors"});if(!e.ok)throw Error(`HTTP error! status: ${e.status}`);getStudents()}catch(t){console.error("Помилка видалення студента:",t)}}document.getElementById("get-students-btn").addEventListener("click",getStudents),document.getElementById("add-student-form").addEventListener("submit",addStudent);
+//# sourceMappingURL=goit-js-hw-18.8fb884bc.js.map

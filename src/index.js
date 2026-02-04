@@ -2,14 +2,14 @@ const API_URL = "https://698369449c3efeb892a5aa17.mockapi.io/v1/students";
 
 async function getStudents() {
   try {
-    console.log("Fetching:", API_URL);
-    const res = await fetch(API_URL, { mode: 'cors' }); // включаем CORS
+    const res = await fetch(API_URL, { mode: "cors" });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    
-    const students = await res.json();
-    console.log("Response data:", students);
 
-    renderStudents(students);
+    const students = await res.json();
+    console.log("Fetched students:", students);
+    const studentsArray = Array.isArray(students) ? students : students.students || [];
+
+    renderStudents(studentsArray);
   } catch (err) {
     console.error("Помилка отримання студентів:", err);
   }
@@ -19,8 +19,8 @@ function renderStudents(students) {
   const tbody = document.querySelector("#students-table tbody");
   tbody.innerHTML = "";
 
-  if (!Array.isArray(students)) {
-    console.error("Полученные данные не массив:", students);
+  if (!Array.isArray(students) || students.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8">Студенти не знайдені</td></tr>`;
     return;
   }
 
@@ -122,4 +122,3 @@ async function deleteStudent(id) {
 
 document.getElementById("get-students-btn").addEventListener("click", getStudents);
 document.getElementById("add-student-form").addEventListener("submit", addStudent);
-
