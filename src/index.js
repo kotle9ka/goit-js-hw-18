@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/students";
+const API_URL = "https://69835de39c3efeb892a58383.mockapi.io/:students";
 
 // Завантаження студентів (GET)
 async function getStudents() {
