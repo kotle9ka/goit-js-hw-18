@@ -25,21 +25,30 @@ function renderStudents(students) {
   }
 
   students.forEach(student => {
-    const skillsArray = Array.isArray(student.skills) ? student.skills : [];
-    const skills = skillsArray.join(", ");
+    const {
+      id = "",
+      name = "",
+      age = "",
+      course = "",
+      email = "",
+      isEnrolled = false,
+      skills = []
+    } = student;
+
+    const skillsText = Array.isArray(skills) ? skills.join(", ") : "";
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${student.id || ""}</td>
-      <td>${student.name || ""}</td>
-      <td>${student.age || ""}</td>
-      <td>${student.course || ""}</td>
-      <td>${skills}</td>
-      <td>${student.email || ""}</td>
-      <td>${student.isEnrolled ? "✅" : "❌"}</td>
+      <td>${id}</td>
+      <td>${name}</td>
+      <td>${age}</td>
+      <td>${course}</td>
+      <td>${skillsText}</td>
+      <td>${email}</td>
+      <td>${isEnrolled ? "✅" : "❌"}</td>
       <td>
-        <button onclick="updateStudent(${student.id})">✏️</button>
-        <button onclick="deleteStudent(${student.id})">🗑️</button>
+        <button onclick="updateStudent(${id})">✏️</button>
+        <button onclick="deleteStudent(${id})">🗑️</button>
       </td>
     `;
     tbody.appendChild(tr);
